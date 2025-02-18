@@ -22,7 +22,8 @@ A modern web application built with React (Vite) and Laravel for booking artists
 
 ### 📋 Prerequisites
 - 🟢 **Node.js and npm** – [Download here](https://nodejs.org/)
-- 🐘 **PHP and Composer** – [Download here](https://getcomposer.org/)
+- 🐘 **PHP** - [Download here](https://php.net/)
+- 🪄 **Composer** – [Download here](https://getcomposer.org/)
 
 ### 🚀 Setup Step-by-Step
 
