@@ -6,12 +6,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 
 interface DateTimePickerProps {
+    name?: string;
   value?: Date;
   onChange: (date: Date | null) => void;
   required?: boolean;
 }
 
 const DateTimePicker: React.FC<DateTimePickerProps> = ({
+    name,
   value,
   onChange,
   required = false,

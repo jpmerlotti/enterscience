@@ -15,7 +15,13 @@ class EventService extends Service
     protected function validate(array $data, string $context = 'create'): array
     {
         $rules = match ($context) {
-            'create' => [],
+            'create' => [
+                'name' => 'required|string',
+                'artist' => 'required|string',
+                'cache' => 'nullable|int',
+                'address' => 'nullable|string',
+                'start_date' => 'required|date',
+            ],
             'update' => [],
             'show' => [],
             default => []

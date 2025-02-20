@@ -12,18 +12,12 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'name' => 'string',
         'artist' => 'string',
         'cache' => 'int',
-        'start_date' => 'datetime',
-        'address' => 'array'
+        'start_date' => 'date',
+        'address' => 'string'
     ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public static function newFactory()
     {
