@@ -76,7 +76,7 @@ A modern web application built with React (Vite) and Laravel for booking artists
 ---
 
 ## 🛡️ Tech Stack
-- 🎨 **Frontend:** React (Vite), Tailwind CSS
+- 🎨 **Frontend:** NextJs, Tailwind CSS
 - 🛠️ **Backend:** Laravel
 - 🌐 **API Integration:** Deezer API
 
