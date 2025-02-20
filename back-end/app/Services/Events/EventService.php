@@ -3,7 +3,7 @@
 namespace App\Services\Events;
 
 use App\Models\Event;
-use App\Service\Service;
+use App\Services\Service;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +34,9 @@ class EventService extends Service
 
     public function list(array $filters = [], string $orderBy = 'id', bool $direction = true): LengthAwarePaginator
     {
-        return Auth::user()->events->where($filters)->orderBy($orderBy, $direction ? 'asc' : 'desc');
+        $events = Event::where($filters)->orderBy($orderBy, $direction ? 'asc' : 'desc');
+
+        return $events->paginate();
     }
 
     public function create(array $data): Event

@@ -17,11 +17,11 @@ class EventController extends Controller
         protected ApiResponder $responder
     ){}
 
-    public function index(array $filters = [], string $orderBy = 'id', bool $direction = true): LengthAwarePaginator
+    public function index(array $filters = [], string $orderBy = 'id', bool $direction = true): JsonResponse
     {
         $data = $this->service->list($filters, $orderBy, $direction);
 
-        return $this->responder->paginated($data->toArray(), 'Listados os eventos do usário.', 200);
+        return $this->responder->paginated($data->toArray(), "List of user's events", 200);
     }
 
     public function store(Request $request): JsonResponse
@@ -29,9 +29,9 @@ class EventController extends Controller
         try {
             $data = $this->service->create($request->all());
         } catch (Exception $e) {
-            return $this->responder->error([$e], 'Erro ao criar evento.', 400);
+            return $this->responder->error([$e], 'Something goes wrong.', 400);
         }
 
-        return $this->responder->success($data->toArray(), 'Evento criado com sucesso.', 201);
+        return $this->responder->success($data->toArray(), 'Event successfully created.', 201);
     }
 }

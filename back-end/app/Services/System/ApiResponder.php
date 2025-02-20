@@ -17,7 +17,8 @@ class ApiResponder
         ], $code);
     }
 
-    public function error(array $errors, string $message, int $code = 400): JsonResponse {
+    public function error(array $errors, string $message, int $code = 400): JsonResponse
+    {
         return response()->json([
             'success' => false,
             'message' => $message,
@@ -26,14 +27,20 @@ class ApiResponder
         ], $code);
     }
 
-    public function paginated(array $data, string $message, int $code = 200): LengthAwarePaginator
+    public function paginated(array $data, string $message, int $code = 200): JsonResponse
     {
         return response()->json([
             'success' => true,
             'message' => $message,
             'data' => $data,
-            'pagination' => $data['pagination'],
+            'pagination' => [
+                'first_page' => 1,
+                'current_page' => $data['current_page'],
+                'last_page' => $data['last_page'],
+                'per_page' => $data['per_page'],
+                'total' => $data['total'],
+            ],
             'code' => $code
-        ], $code)->paginated();
+        ], $code);
     }
 }

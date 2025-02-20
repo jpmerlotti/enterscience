@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -15,7 +16,11 @@ class UserService extends Service
     protected function validate(array $data, string $context = 'create'): array
     {
         $rules = match ($context) {
-            'create' => [],
+            'create' => [
+                'email' => 'required|email|unique:users,email',
+                'name' => 'required|string',
+                'password' => 'required',
+            ],
             'update' => [],
             'show' => [],
             default => []
@@ -36,7 +41,11 @@ class UserService extends Service
     {
         $validated = $this->validate($data);
 
-        return User::create($validated);
+        return User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password'])
+        ]);
     }
 
     public function update(Model $record, array $data): bool

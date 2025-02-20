@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id');
             $table->string('name');
             $table->string('artist');
             $table->integer('cache');
