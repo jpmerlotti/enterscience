@@ -7,6 +7,8 @@ import Notification from '@/components/notification'
 import { Text } from '@/components/text'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import { parseISO, isValid, format } from 'date-fns';
+
 
 export function CreateForm({ artist, open, onClose }) {
     // Manage form state
@@ -27,13 +29,11 @@ export function CreateForm({ artist, open, onClose }) {
     }, [artist]);
 
     const handleCreation = async () => {
-        // Ensure all required fields are correctly formatted
         const formattedName = typeof name === 'string' ? name.trim() : "";
         const formattedArtist = typeof dataArtist === 'string' ? dataArtist.trim() : "";
         const formattedAddress = typeof address === 'string' ? address.trim() : "";
-        const formattedDate = startDate ? String(startDate).trim() : "";
-    
-        // Validate required fields
+        const formattedDate = startDate ? parseToSqlTimestamp(startDate) : "";
+
         if (!formattedName || !formattedArtist || !formattedDate) {
             alert("Please fill in all required fields.");
             return;
@@ -43,17 +43,29 @@ export function CreateForm({ artist, open, onClose }) {
             name: formattedName,
             artist: formattedArtist,
             cache: cache || 0,
-            address: formattedAddress,
             start_date: formattedDate,
+            address: formattedAddress
         };
     
         try {
-            let response = await axios.post("http://localhost:8000/v1/events/store", data);
+            await axios.post("http://localhost:8000/v1/events/store", data);
             setSuccess(true);
             setTimeout(() => setSuccess(false), 4000); // Hide success message after 4s
             onClose(false); // Close the modal after successful submission
         } catch (error) {
             console.error("Error creating event:", error);
+            alert("An error occurred while creating the event. Please try again.");
+        }
+    };
+
+    const parseToSqlTimestamp = (dateString: string | Date): string | null => {
+        const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
+
+        if (isValid(date)) {
+            return format(date, "yyyy-MM-dd HH:mm:ss");
+        } else {
+            alert("Please provide a valid date.");
+            return null;
         }
     };
 

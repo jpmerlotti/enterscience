@@ -27,7 +27,7 @@ class EventController extends Controller
 
             $data = $this->service->list($filters, $orderBy, $direction, $perPage);
         } catch (Exception $e) {
-            return $this->responder->error([$e], 'Something goes wrong.', $e->getCode());
+            return $this->responder->error([$e], 'Something goes wrong.', 400);
         }
 
         return $this->responder->paginated($data->toArray(), "List of events", 200);
@@ -39,7 +39,7 @@ class EventController extends Controller
         try {
             $data = $this->service->create($request->all());
         } catch (Exception $e) {
-            return $this->responder->error([$e], 'Something goes wrong.', $e->getCode());
+            return $this->responder->error([$e], 'Something goes wrong.', 400);
         }
 
         return $this->responder->success($data->toArray(), 'Event successfully created.', 201);

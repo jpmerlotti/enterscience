@@ -3,15 +3,38 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useEffect, useState } from 'react';
 import { Heading } from '@/components/heading';
 import axios from 'axios';
+import {
+    Pagination,
+    PaginationNext,
+    PaginationPrevious,
+} from '@/components/pagination'
+import {Text} from "@/components/text";
+import {Button} from "@/components/button";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+const [currentPage, setCurrentPage] = useState(1);
+const [totalPages, setTotalPages] = useState(0);
+const [perPage, setPerPage] = useState(10);
+const [totalEvents, setTotalEvents] = useState(0);
+const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const fetchEvents = async () => {
+  const fetchEvents = async (page = 1) => {
+      setLoading(true);
       try {
-          const response = await axios.get("http://127.0.0.1:8000/v1/events");
+          const response = await axios.get("http://127.0.0.1:8000/v1/events", {
+              params: {
+                  page,
+                  perPage,
+              },
+          });
+          const { data, pagination } = response.data;
+          setEvents(data);
+          setCurrentPage(pagination.current_page);
+          setTotalPages(pagination.last_page);
+          setPerPage(pagination.per_page);
+          setTotalEvents(pagination.total);
           setEvents(response.data.data);
           setLoading(false);
       } catch (error) {
@@ -22,10 +45,18 @@ export default function Events() {
   };
 
   useEffect(() => {
-      fetchEvents();
+      fetchEvents(currentPage);
   }, []);
 
-  if (loading) {
+  const handlePageChange = (page: number) => {
+      if (page < 1 || page > totalPages) {
+          return; // Prevent invalid page numbers
+      }
+      // Call fetchEvents with the new page
+      fetchEvents(page);
+  };
+
+    if (loading) {
       return <div className="mt-5 text-center">Loading...</div>;
   }
 
@@ -53,7 +84,7 @@ export default function Events() {
               <TableRow key={event.id} className="grid grid-cols-5 gap-4">
                 <TableCell className="col-span-1 font-medium truncate">{event.name}</TableCell>
                 <TableCell className="col-span-1 font-medium truncate">{event.artist}</TableCell>
-                <TableCell className="col-span-1 text-center text-zinc-500">R$ {event.cache}</TableCell>
+                <TableCell className="col-span-1 text-center text-zinc-500">R$ {Number(event.cache / 100)}</TableCell>
                 <TableCell className="col-span-1 font-medium truncate">{event.start_date}</TableCell>
                 <TableCell className="col-span-1 font-medium truncate">{event.address}</TableCell>
               </TableRow>
@@ -61,6 +92,20 @@ export default function Events() {
             }
           </TableBody>
         </Table>
+        <Pagination className="flex items-center mt-6">
+            <Text className="mr-5">Showing {perPage} from {totalEvents} Events</Text>
+            <Button
+                outline
+                disabled={currentPage === 1}
+                onClick={() => {
+                handlePageChange(currentPage - 1)
+            }}>⟵ Previous</Button>
+            <Button outline
+                disabled={currentPage === totalPages}
+                onClick={() => {
+                handlePageChange(currentPage + 1)
+            }}>Next ⟶</Button>
+        </Pagination>
       </main>
     )
   }
