@@ -1,25 +1,10 @@
 "use client";
-import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '@/components/dropdown'
-import {
-    Pagination,
-    PaginationGap,
-    PaginationList,
-    PaginationNext,
-    PaginationPage,
-    PaginationPrevious,
-  } from '@/components/pagination'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table'
-import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid'
-import { Button } from "@/components/button";  
 import { useEffect, useState } from 'react';
 import { Heading } from '@/components/heading';
-import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } from '@/components/dialog'
-import { ViewForm, EditForm, DeleteForm } from './event-form';
 import axios from 'axios';
 
 export default function Events() {
-  let [ isOpen, setIsOpen ] = useState(false);
-  let [ context, setContext ] = useState("view");
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -27,7 +12,7 @@ export default function Events() {
   const fetchEvents = async () => {
       try {
           const response = await axios.get("http://127.0.0.1:8000/v1/events");
-          setEvents(response.data.data.data);
+          setEvents(response.data.data);
           setLoading(false);
       } catch (error) {
           console.error("Error when searching for events:", error);
