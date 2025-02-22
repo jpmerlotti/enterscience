@@ -1,0 +1,6 @@
+{
+    "client": {
+        "id": "YOUR_SPOTIFY_API_CLIENT_ID",
+        "secret": "YOUR_SPOTIFY_API_CLIENT_SECRET"
+    }
+}

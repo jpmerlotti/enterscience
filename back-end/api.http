@@ -1,0 +1,21 @@
+@app_url = http://localhost:8000/v1
+
+###
+# Get Events endpoint
+GET {{app_url}}/events?perPage=51 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+###
+# Create/Store an Event endpoint
+POST {{app_url}}/events/store HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Sample Event",
+    "artist": "Some famous artist",
+    "cache": 30000000,
+    "start_date": "2024-03-15",
+    "address": "Sample Location Address"
+}

@@ -12,6 +12,14 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
+        'artist',
+        'cache',
+        'start_date',
+        'address'
+    ];
+
+    protected $casts = [
         'name' => 'string',
         'artist' => 'string',
         'cache' => 'int',

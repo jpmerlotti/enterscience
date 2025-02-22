@@ -6,7 +6,6 @@ use App\Models\Event;
 use App\Services\Service;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -22,14 +21,10 @@ class EventService extends Service
                 'address' => 'nullable|string',
                 'start_date' => 'required|date',
             ],
-            'update' => [],
-            'show' => [],
             default => []
         };
 
-        $messages = [];
-
-        $validator = Validator::make($data, $rules, $messages);
+        $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
             throw new ValidationException($validator);
@@ -38,34 +33,32 @@ class EventService extends Service
         return $validator->validate();
     }
 
-    public function list(array $filters = [], string $orderBy = 'id', bool $direction = true): LengthAwarePaginator
+    public function list(array $filters = [], string $orderBy = 'id', bool $direction = true, int $perPage = 15): LengthAwarePaginator
     {
-        $events = Event::where($filters)->orderBy($orderBy, $direction ? 'asc' : 'desc');
+        $query = Event::query();
 
-        return $events->paginate();
+        foreach ($filters as $field => $value) {
+            if (!empty($value)) {
+                $query->where($field, 'like', "%$value%");
+            }
+        }
+
+        return $query->orderBy($orderBy, $direction ? 'asc' : 'desc')
+            ->paginate($perPage);
     }
+
 
     public function create(array $data): Event
     {
-        $validated = $this->validate($data);
+        $validated = $this->validate($this->prepareData($data));
 
         return Event::create($validated);
     }
 
-    public function update(Model $record, array $data): bool
+    protected function prepareData(array $data): array
     {
-        $validated = $this->validate($data, 'update');
+        $data['cache'] = (int) ($data['cache'] ?? 0);
 
-        return $record->updateOrFail($validated);
-    }
-
-    public function delete(Model $record): bool
-    {
-        return $record->deleteOrFail();
-    }
-
-    public function show(int $id): Event|bool
-    {
-        return Event::findOrFail($id);
+        return $data;
     }
 }

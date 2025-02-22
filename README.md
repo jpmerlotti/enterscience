@@ -12,7 +12,6 @@ A modern web application built with React (Vite) and Laravel for booking artists
 - 🔍 **Dynamic Artist Search:** Search for artists while typing, powered by Deezer API.
 - 🎧 **Artist Selection:** Choose an artist from a responsive grid/list view.
 - 📝 **Booking Form:** Submit a booking form with mandatory fields like Name, Selected Artist, Event Date, and Address.
-- 🔒 **User Authentication:** Secure user login and registration.
 - 📋 **Booking History:** View previously submitted bookings.
 - 📱 **Responsive Design:** Seamlessly adapts to all screen sizes.
 
@@ -24,34 +23,46 @@ A modern web application built with React (Vite) and Laravel for booking artists
 - 🟢 **Node.js and npm** – [Download here](https://nodejs.org/)
 - 🐘 **PHP** - [Download here](https://php.net/)
 - 🪄 **Composer** – [Download here](https://getcomposer.org/)
+- 🟦 **SQLite3** - It doesn't needs a installation, only activate it's `pdo` on `php.ini`.
 
 ### 🚀 Setup Step-by-Step
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/artist-booking-app.git
+   git clone https://github.com/jpmerlotti/enterscience
    ```
 2. **Navigate to the project directory:**
    ```bash
-   cd artist-booking-app
+   cd ./enterscience
    ```
 
 3. **Install front-end dependencies:**
    ```bash
-   cd frontend
+   cd front-end
    npm install  # Installs all required packages
    ```
 
 4. **Install back-end dependencies:**
    ```bash
-   cd ../backend
+   cd ../back-end
    composer install  # Installs Laravel dependencies
    ```
 
 5. **Configure environment variables:**
-   - Duplicate `.env.example` as `.env` in both frontend and backend folders.
-   - Add your **Deezer API key**, database details, and other necessary config.
-
+   - **Front-end:**
+     - Duplicate `config.example.json` as `config.json` in front-end folder
+     ```bash
+        cp config.example.json config.json
+     ```
+     > On config.json you need to configure your Spotfy API Client Credentials < ID, SECRET >.
+     
+   - **Back-end:**
+      - Duplicate `.env.example` as `.env` in back-end folder.
+       ```bash
+         cp .env.example .env
+       ```
+   > The .env don't requires any other configuration. 
+   
 6. **Run the development servers:**
    - **Frontend:**
      ```bash
@@ -61,24 +72,31 @@ A modern web application built with React (Vite) and Laravel for booking artists
    - **Backend:**
      ```bash
      cd backend
-     php artisan serve  # Starts the Laravel server at http://localhost:8000
+     
+     # Run the migrations to create all database tables.
+     # if any dialog appears, choose the Yes/Agree option.
+     php artisan migrate 
+     # Add the --seed flag to populate them with fake data
+     
+     # Starts the Laravel server at http://localhost:8000
+     php artisan serve  
      ```
 
 ---
 
 ## 🚦 Usage Guide
 
-1. **🔑 Login/Register:** Create an account or log in.
-2. **🎼 Search Artists:** Use the search bar to dynamically find artists.
-3. **📨 Book an Artist:** Select an artist and fill in the booking form.
-4. **📁 View Bookings:** Access previous bookings from the dashboard.
+1. **🎼 Search Artists:** Use the search bar to dynamically find artists.
+2. **📨 Book an Artist:** Select an artist and fill in the booking form.
+3. **📁 View Bookings:** Access previous bookings from the dashboard.
 
 ---
 
 ## 🛡️ Tech Stack
 - 🎨 **Frontend:** NextJs, Tailwind CSS
 - 🛠️ **Backend:** Laravel
-- 🌐 **API Integration:** Deezer API
+- 🎲 **Database:** Sqlite3
+- 🌐 **API Integration:** Spotfy API - Search for Artist
 
 ---
 
@@ -93,7 +111,8 @@ This project is licensed under the MIT License.
 ---
 
 ## 📬 Contact
-For questions or support, contact [your email or GitHub profile].
-
-🚀 Happy Booking! 🎉
+For questions or support, contact:
+   - **Email**: [joaopedromerlotti@gmail.com](mailto:joaopedromerlotti@gmail.com)
+   - **GitHub**: [jpmerlotti](https://github.com/jpmerlotti)
+   - **Linkedin**: [João Pedro Merlotti](https://www.linkedin.com/in/jpmerlotti/)
 

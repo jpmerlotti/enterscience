@@ -58,12 +58,12 @@ export function CustomSidebar() {
             <ChevronUpIcon />
           </DropdownButton>
           <DropdownMenu className="min-w-64" anchor="top start">
-            <DropdownItem href="/my-profile">
+            <DropdownItem href="#">
               <UserIcon />
               <DropdownLabel>My profile</DropdownLabel>
             </DropdownItem>
             <DropdownDivider />
-            <DropdownItem href="/logout">
+            <DropdownItem href="#">
               <ArrowRightStartOnRectangleIcon />
               <DropdownLabel>Sign out</DropdownLabel>
             </DropdownItem>

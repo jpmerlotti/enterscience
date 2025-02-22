@@ -30,17 +30,16 @@ class ApiResponder
     public function paginated(array $data, string $message, int $code = 200): JsonResponse
     {
         return response()->json([
-            'success' => true,
             'message' => $message,
-            'data' => $data,
+            'status' => $code,
+            'data' => $data['data'] ?? [],
             'pagination' => [
-                'first_page' => 1,
-                'current_page' => $data['current_page'],
-                'last_page' => $data['last_page'],
-                'per_page' => $data['per_page'],
-                'total' => $data['total'],
+                'current_page' => $data['current_page'] ?? null,
+                'last_page' => $data['last_page'] ?? null,
+                'per_page' => $data['per_page'] ?? null,
+                'total' => $data['total'] ?? null,
             ],
-            'code' => $code
         ], $code);
+
     }
 }

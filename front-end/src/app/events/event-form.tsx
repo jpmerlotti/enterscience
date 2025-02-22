@@ -48,7 +48,7 @@ export function CreateForm({ artist, open, onClose }) {
         };
     
         try {
-            await axios.post("http://localhost:8000/v1/events/store", data);
+            let response = await axios.post("http://localhost:8000/v1/events/store", data);
             setSuccess(true);
             setTimeout(() => setSuccess(false), 4000); // Hide success message after 4s
             onClose(false); // Close the modal after successful submission

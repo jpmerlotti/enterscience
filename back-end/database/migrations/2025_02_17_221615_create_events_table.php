@@ -14,10 +14,10 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('artist')->nullable();
+            $table->string('name');
+            $table->string('artist');
             $table->integer('cache')->nullable();
-            $table->timestamp('start_date')->nullable();
+            $table->timestamp('start_date');
             $table->string('address')->nullable();
             $table->timestamps();
         });
